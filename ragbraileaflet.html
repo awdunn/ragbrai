@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="description" content="Leaflet API - Adding a Custom Marker and Div Icon" />
+    <title>RAGBRAI 2016: Day Four</title>
+    
+    
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <link rel="stylesheet" href="Leaflet.Elevation-master/dist/leaflet.elevation-0.0.4.css" />
+
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src="day4.json"></script>
+    <script type="text/javascript" src="Leaflet.Elevation-master/dist/leaflet.elevation-0.0.4.min.js"></script>
+    
+    
+     <script src="https://api.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.js"></script>
+	 <link href="https://api.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.css" rel="stylesheet" />
+          
+          
+        
+
+
+</head>
+
+<style>
+      body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+        }
+</style>
+
+<body>
+    <div id="map"></div>
+
+
+    <script>
+       
+          var map = new L.Map('map', {
+  		center: new L.LatLng(40.8, -93.3),
+  		zoom: 11
+	});
+
+	// create a new tile layer
+	var tileUrl = 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=e939b8c2d52a4bd3b36e29f1eaa96e3d',
+	layer = new L.TileLayer(tileUrl, {maxZoom: 18});
+
+	// add the layer to the map
+	map.addLayer(layer)
+	  
+	  
+	   // var map = L.map('map').setView([40.8, -93.3], 11);
+        // add an OpenStreetMap tile layer
+       // L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+          //  attribution: 'The map contributors',
+           // maxZoom: 18
+      //  }).addTo(map);
+		
+	//  https://[abc].tile.thunderforest.com/cycle/${z}/${x}/${y}.png?apikey=e939b8c2d52a4bd3b36e29f1eaa96e3d
+		
+		var geojsonMarkerOptions = {
+  	  radius: 8,
+    	fillColor: "#ff7800",
+    	color: "#000",
+    	weight: 1,
+    	opacity: 1,
+    	fillOpacity: 0.8
+};
+
+	L.geoJson(day4, {
+    	pointToLayer: function (feature, latlng) {
+        	return L.circleMarker(latlng, geojsonMarkerOptions);
+    }
+}).addTo(map);		
+
+
+
+	var el = L.control.elevation();
+		el.addTo(map);
+		var gjl = L.geoJson(day4,{
+		    onEachFeature: el.addData.bind(el)
+		}).addTo(map);	
+		
+		
+		
+		//L.geoJson(day4).addTo(map);
+		
+       
+    </script>
+
+</body>
+
+</html>
